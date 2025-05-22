@@ -1,0 +1,29 @@
+let queue = [];
+let customerNames = ["Elaine", "Althea", "Angelo", "Lito", "Engelbert"];
+
+// Add customers to the queue
+for (let i = 0; i < customerNames.length; i++) {
+    queue.push(customerNames[i]);
+}
+
+function displayQueue() {
+    console.log("Current Queue:");
+    for (let i = 0; i < queue.length; i++) {
+        console.log(${i + 1}. ${queue[i]});
+    }
+}
+
+
+while (queue.length > 0) {
+    displayQueue();
+    let numberToServe = parseInt(prompt("Enter the number of the customer to serve:"));
+
+    if (numberToServe > 0 && numberToServe <= queue.length) {
+        let servedCustomer = queue.splice(numberToServe - 1, 1); // Remove served customer
+        console.log(Serving customer: ${servedCustomer[0]});
+    } else {
+        console.log("Invalid customer number.");
+    }
+}
+
+console.log("Queue is empty.");
