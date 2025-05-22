@@ -1,0 +1,60 @@
+function hash(name) {
+    let hashValue = 0;
+    for (let i = 0; i < name.length; i++) {
+        hashValue += name.charCodeAt(i);
+    }
+    return hashValue % 5; // Assuming a hash table size of 5
+}
+
+// Initialize the hash table
+let hashTable = new Array(5).fill(null);
+let customerNames = ["Elaine", "Althea", "Angelo", "Lito", "Engelbert"];
+let queue = [];
+
+
+// Add customers to the hash table and queue
+for (let i = 0; i < customerNames.length; i++) {
+    let name = customerNames[i];
+    let index = hash(name);
+    if (hashTable[index] === null) {
+        hashTable[index] = name;
+        queue.push(name);
+    } else {
+        // Handle collisions (simple approach: append to the end)
+        hashTable[index] += ", " + name;
+        queue.push(name);
+    }
+}
+
+
+function displayHashTable() {
+    console.log("Current Hash Table:");
+    for (let i = 0; i < hashTable.length; i++) {
+        console.log(${i + 1}. ${hashTable[i] || "Empty"});
+    }
+}
+
+while (queue.length > 0) {
+    displayHashTable();
+    let numberToServe = parseInt(prompt("Enter the number of the customer to serve:"));
+
+    if (numberToServe > 0 && numberToServe <= queue.length) {
+        let servedCustomer = queue.splice(numberToServe - 1, 1)[0]; // Remove and get served customer
+        console.log(Serving customer: ${servedCustomer});
+
+        // Update the hash table (this part is simplified due to the simple hash function)
+        for (let i = 0; i < hashTable.length; i++) {
+            if (hashTable[i] && hashTable[i].includes(servedCustomer)) {
+                hashTable[i] = hashTable[i].replace(servedCustomer, "").trim();
+                if (hashTable[i] === "") {
+                    hashTable[i] = null;
+                }
+                break;
+            }
+        }
+    } else {
+        console.log("Invalid customer number.");
+    }
+}
+
+console.log("Queue is empty.");
